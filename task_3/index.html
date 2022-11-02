@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tugas Event DOM</title>
+  </head>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      max-width: 400pt;
+      margin: 2rem;
+      padding: 1rem;
+      background: #ffeeff;
+      border-radius: 1rem;
+      text-align: center;
+    }
+
+    .container > h1 {
+      font-size: x-large;
+    }
+
+    .container .box {
+      margin: 0pt 4pt 2pt 4pt;
+      padding: 5pt;
+    }
+
+    .box > label {
+      display: block;
+      margin-bottom: 2pt;
+    }
+    .box > input {
+      padding: 3pt;
+      margin: 1pt;
+      border-radius: 2pt;
+      border-style: solid;
+      border-width: 2pt;
+      border-color: #ffdddd;
+    }
+
+    .operation {
+      padding: 8pt;
+      margin: 4pt;
+
+      background: #ffdddd;
+      border-color: #ffcccc;
+      border-radius: 3pt;
+      border-style: solid;
+
+      font-weight: bolder;
+    }
+
+    .operation:hover {
+      cursor: pointer;
+    }
+
+    .txtResult {
+      margin: 4pt;
+      padding: 4pt;
+
+      font-size: x-large;
+      background-color: white;
+      display: block;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Kalkulator sederhana dengan DOM</h1>
+      <div class="box">
+        <label for="txtFirstNum">Bilangan pertama</label>
+        <input type="number" name="txtFirstNum" id="txtFirstNum" />
+      </div>
+      <div class="box">
+        <label for="txtSecondNum">Bilangan pertama</label>
+        <input type="number" name="txtSecondNum" id="txtSecondNum" />
+      </div>
+      <div class="box">
+        <button class="operation" id="opAdd">+</button>
+        <button class="operation" id="opSubstract">-</button>
+        <button class="operation" id="opMultiply">*</button>
+        <button class="operation" id="opDivide">/</button>
+      </div>
+      <div class="box">
+        <span>Hasilnya:</span>
+        <span class="txtResult">00</span>
+      </div>
+    </div>
+  </body>
+  <script>
+    // ambil elemen
+    let txtFirstNum = document.getElementById("txtFirstNum");
+    let txtSecondNum = document.getElementById("txtSecondNum");
+    let txtResult = document.getElementsByClassName("txtResult");
+    let operators = document.getElementsByClassName("operation");
+    let valFirstNum;
+    let valSecondNum;
+
+    let result = 0;
+
+    // set event handler
+    for (let index = 0; index < operators.length; index++) {
+      const element = operators[index];
+      element.addEventListener("click", (el) => {
+        onClickCallback(el);
+      });
+    }
+
+    let onClickCallback = (element) => {
+      // ekstrak angka dari elemen
+      valFirstNum = Number.parseInt(txtFirstNum.value);
+      valSecondNum = Number.parseInt(txtSecondNum.value);
+
+      if (Number.isNaN(valFirstNum) || Number.isNaN(valSecondNum)) {
+        alert("Input salah");
+        return;
+      }
+      element = element.target;
+      switch (element.getAttribute("id")) {
+        case "opAdd":
+          result = valFirstNum + valSecondNum;
+          break;
+        case "opSubstract":
+          result = valFirstNum - valSecondNum;
+          break;
+        case "opMultiply":
+          result = valFirstNum * valSecondNum;
+          break;
+        case "opDivide":
+          result = valFirstNum / valSecondNum;
+          break;
+        default:
+          break;
+      }
+
+      for (let index = 0; index < txtResult.length; index++) {
+        const element = txtResult[index];
+        element.setHTML(result);
+      }
+    };
+  </script>
+</html>
